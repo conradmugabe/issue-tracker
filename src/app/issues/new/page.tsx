@@ -13,6 +13,7 @@ import "easymde/dist/easymde.min.css";
 
 import { createIssueSchema } from "@/issues/entities/dto";
 import { ErrorMessage } from "@/components/error-message";
+import { Spinner } from "@/components/spinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -27,6 +28,7 @@ export default function NewIssuePage() {
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="max-w-xl">
@@ -40,9 +42,11 @@ export default function NewIssuePage() {
         onSubmit={handleSubmit(async (data) => {
           try {
             setError("");
+            setIsSubmitting(true);
             await axios.post("/api/issues", data);
             router.push("/issues");
           } catch (error) {
+            setIsSubmitting(false);
             setError("An unexpected error occurred. Try again later.");
           }
         })}
@@ -59,7 +63,9 @@ export default function NewIssuePage() {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button className="cursor-pointer">Submit New Issue</Button>
+        <Button className="cursor-pointer" disabled={isSubmitting}>
+          Submit New Issue {isSubmitting ? <Spinner /> : null}
+        </Button>
       </form>
     </div>
   );
