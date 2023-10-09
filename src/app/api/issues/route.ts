@@ -1,17 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import prisma from "@/db/prisma";
-import { z } from "zod";
-
-const createIssueSchema = z.object({
-  title: z
-    .string({ required_error: "Title is required" })
-    .min(1, { message: "Title is required" })
-    .max(255, { message: "Title must not exceed 255 characters" }),
-  description: z
-    .string({ required_error: "Description is required" })
-    .min(1, { message: "Description is required" }),
-});
+import { createIssueSchema } from "@/issues/entities/dto";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();

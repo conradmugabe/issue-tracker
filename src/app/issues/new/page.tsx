@@ -1,22 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import axios from "axios";
 import SimpleMDE from "react-simplemde-editor";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import "easymde/dist/easymde.min.css";
-import { useRouter } from "next/navigation";
 
-type IssueForm = {
-  title: string;
-  description: string;
-};
+import { createIssueSchema } from "@/issues/entities/dto";
+
+type IssueForm = z.infer<typeof createIssueSchema>;
 
 export default function NewIssuePage() {
   const router = useRouter();
-  const { control, handleSubmit, register } = useForm<IssueForm>();
+  const { control, handleSubmit, register } = useForm<IssueForm>({
+    resolver: zodResolver(createIssueSchema),
+  });
   const [error, setError] = useState("");
 
   return (
