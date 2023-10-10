@@ -1,7 +1,10 @@
-import { IssueStatusBadge } from "@/components/issue-status-badge";
-import prisma from "@/db/prisma";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
+
+import Markdown from "react-markdown";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+
+import prisma from "@/db/prisma";
+import { IssueStatusBadge } from "@/components/issue-status-badge";
 
 type Props = {
   params: { id: string };
@@ -22,8 +25,8 @@ export default async function IssueDetailPage({ params }: Props) {
         <IssueStatusBadge status={issue.status} />
         <Text>{issue.createdAt.toDateString()}</Text>
       </Flex>
-      <Card>
-        <Text>{issue.description}</Text>
+      <Card className="prose">
+        <Markdown>{issue.description}</Markdown>
       </Card>
     </div>
   );
