@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 
-import Markdown from "react-markdown";
-import delay from "delay";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { Box, Grid } from "@radix-ui/themes";
 
 import prisma from "@/db/prisma";
-import { IssueStatusBadge } from "@/components";
+import { EditIssueButton } from "./edit-issue-button";
+import { IssueDetail } from "./issue-detail";
 
 type Props = {
   params: { id: string };
@@ -19,18 +18,16 @@ export default async function IssueDetailPage({ params }: Props) {
   });
   if (!issue) notFound();
 
-  await delay(2000);
+  // await delay(2000);
 
   return (
-    <div>
-      <Heading>{issue.title}</Heading>
-      <Flex gap="4" className="my-5">
-        <IssueStatusBadge status={issue.status} />
-        <Text>{issue.createdAt.toDateString()}</Text>
-      </Flex>
-      <Card className="prose">
-        <Markdown>{issue.description}</Markdown>
-      </Card>
-    </div>
+    <Grid columns={{ initial: "1" }} gap="5">
+      <Box>
+        <IssueDetail issue={issue} />
+      </Box>
+      <Box>
+        <EditIssueButton issueId={issue.id} />
+      </Box>
+    </Grid>
   );
 }

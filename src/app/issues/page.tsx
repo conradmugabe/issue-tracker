@@ -34,7 +34,7 @@ export default async function IssuesPage() {
             <Table.Row key={issue.id}>
               <Table.RowHeaderCell>
                 <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="md:hidden">
+                <div className="mt-2 md:hidden">
                   <IssueStatusBadge status={issue.status} />
                 </div>
               </Table.RowHeaderCell>
