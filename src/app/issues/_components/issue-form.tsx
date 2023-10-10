@@ -11,11 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import "easymde/dist/easymde.min.css";
 
-import { createIssueSchema } from "@/issues/entities/dto";
+import { issueSchema } from "@/issues/entities/dto";
 import { ErrorMessage, Spinner } from "@/components";
 import { Issue } from "@prisma/client";
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 export function IssueForm({ issue }: { issue?: Issue }) {
   const router = useRouter();
@@ -26,7 +26,7 @@ export function IssueForm({ issue }: { issue?: Issue }) {
     register,
   } = useForm<IssueFormData>({
     defaultValues: { title: issue?.title, description: issue?.description },
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
