@@ -1,22 +1,25 @@
 import { notFound } from "next/navigation";
 
 import Markdown from "react-markdown";
+import delay from "delay";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 
 import prisma from "@/db/prisma";
-import { IssueStatusBadge } from "@/components/issue-status-badge";
+import { IssueStatusBadge } from "@/components";
 
 type Props = {
   params: { id: string };
 };
 
 export default async function IssueDetailPage({ params }: Props) {
-  //   if (typeof params.id !== "number") notFound();
+  // if (typeof params.id !== "number") notFound();
 
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
   if (!issue) notFound();
+
+  await delay(2000);
 
   return (
     <div>

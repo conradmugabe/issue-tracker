@@ -12,8 +12,7 @@ import { z } from "zod";
 import "easymde/dist/easymde.min.css";
 
 import { createIssueSchema } from "@/issues/entities/dto";
-import { ErrorMessage } from "@/components/error-message";
-import { Spinner } from "@/components/spinner";
+import { ErrorMessage, Spinner } from "@/components";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 

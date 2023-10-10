@@ -3,9 +3,8 @@ import NextLink from "next/link";
 import delay from "delay";
 import { Button, Table } from "@radix-ui/themes";
 
-import { IssueStatusBadge } from "@/components/issue-status-badge";
-import { Link } from "@/components/link";
 import prisma from "@/db/prisma";
+import { IssueStatusBadge, Link } from "@/components";
 
 export default async function IssuesPage() {
   const issues = await prisma.issue.findMany();
