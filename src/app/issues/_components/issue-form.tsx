@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import axios from "axios";
 import SimpleMDE from "react-simplemde-editor";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Box, Button, Callout, TextField } from "@radix-ui/themes";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -47,7 +47,7 @@ export function IssueForm({ issue }: { issue?: Issue }) {
   });
 
   return (
-    <div className="max-w-xl">
+    <Box className="max-w-xl">
       {error ? (
         <Callout.Root color="red" className="mb-5">
           <Callout.Text>{error}</Callout.Text>
@@ -71,6 +71,6 @@ export function IssueForm({ issue }: { issue?: Issue }) {
           {isSubmitting ? <Spinner /> : null}
         </Button>
       </form>
-    </div>
+    </Box>
   );
 }
