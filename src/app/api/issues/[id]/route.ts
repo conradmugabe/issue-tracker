@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getServerSession } from "next-auth";
+
 import prisma from "@/db/prisma";
 import { issueSchema } from "@/issues/entities/dto";
-import { getServerSession } from "next-auth";
 
 export async function PATCH(
   request: NextRequest,

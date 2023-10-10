@@ -30,6 +30,8 @@ function AuthView() {
           radius="full"
           src={data?.user?.image!}
           fallback={<Skeleton width="1rem" />}
+          className="cursor-pointer"
+          referrerPolicy="no-referrer"
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
