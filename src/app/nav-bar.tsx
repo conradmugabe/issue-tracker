@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import { Avatar, Container, DropdownMenu, Flex } from "@radix-ui/themes";
 
 import { Skeleton } from "@/components";
 
@@ -16,14 +16,26 @@ const links = [
 ];
 
 function AuthView() {
-  const { status } = useSession();
+  const { data, status } = useSession();
 
   if (status === "loading") return <Skeleton width="2rem" />;
 
   if (status === "unauthenticated")
     return <Link href="/api/auth/signin">Log in</Link>;
 
-  return <Link href="/api/auth/signout">Log out</Link>;
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <Avatar fallback={<Skeleton width="1rem" />} />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.Item>{data?.user?.email}</DropdownMenu.Item>
+        <DropdownMenu.Item>
+          <Link href="/api/auth/signout">Log out</Link>;
+        </DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  );
 }
 
 function NavLinks() {
