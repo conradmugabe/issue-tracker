@@ -1,48 +1,43 @@
-import Link from "next/link";
+import Skeleton from "react-loading-skeleton";
+import { Table } from "@radix-ui/themes";
+import "react-loading-skeleton/dist/skeleton.css";
 
-import delay from "delay";
-import { Button, Table } from "@radix-ui/themes";
-import prisma from "@/db/prisma";
-
-import { IssueStatusBadge } from "@/components/issue-status-badge";
-
-export default async function IssuesPage() {
-  const issues = await prisma.issue.findMany();
-  await delay(2000);
+export default function LoadingIssuesPage() {
+  const issues = [1, 2, 3, 4, 5];
 
   return (
     <div>
-      <div className="mb-5">
-        <Button>
-          <Link href="/issues/new">New Issue</Link>
-        </Button>
+      <div className="mb-5 flex">
+        <Skeleton className="h-8 px-12" />
       </div>
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
+            <Table.ColumnHeaderCell>
+              <Skeleton />
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
+              <Skeleton />
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="hidden md:table-cell">
+              <Skeleton />
             </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {issues.map((issue) => (
-            <Table.Row key={issue.id}>
+            <Table.Row key={issue}>
               <Table.RowHeaderCell>
-                {issue.title}
+                <Skeleton />
                 <div className="md:hidden">
-                  <IssueStatusBadge status={issue.status} />
+                  <Skeleton />
                 </div>
               </Table.RowHeaderCell>
               <Table.Cell className="hidden md:table-cell">
-                <IssueStatusBadge status={issue.status} />
+                <Skeleton />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
+                <Skeleton />
               </Table.Cell>
             </Table.Row>
           ))}
