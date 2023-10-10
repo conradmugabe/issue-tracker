@@ -23,11 +23,11 @@ export default async function IssueDetailPage({ params }: Props) {
 
   return (
     <Grid columns={{ initial: "1", md: "5" }} gap="5">
-      <Box className="col-span-4">
+      <Box className="lg:col-span-4">
         <IssueDetail issue={issue} />
       </Box>
       <Box>
-        <Flex gap="4" direction={{ initial: "column", md: "row" }}>
+        <Flex gap="4" className="items-start">
           <EditIssueButton issueId={issue.id} />
           <DeleteIssueButton issueId={issue.id} />
         </Flex>

@@ -15,7 +15,7 @@ export function NavBar() {
   const currentPath = usePathname();
 
   return (
-    <nav className="flex items-center space-x-6 mb-5 px-5 h-14 border-b">
+    <nav className="flex items-center space-x-6 mb-5 px-2 h-14 border-b sm:px-4">
       <Link href="/">
         <AiFillBug />
       </Link>
