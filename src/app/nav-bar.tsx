@@ -26,12 +26,16 @@ function AuthView() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <Avatar fallback={<Skeleton width="1rem" />} />
+        <Avatar
+          radius="full"
+          src={data?.user?.image!}
+          fallback={<Skeleton width="1rem" />}
+        />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
-        <DropdownMenu.Item>{data?.user?.email}</DropdownMenu.Item>
+        <DropdownMenu.Label>{data?.user?.email}</DropdownMenu.Label>
         <DropdownMenu.Item>
-          <Link href="/api/auth/signout">Log out</Link>;
+          <Link href="/api/auth/signout">Log out</Link>
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
