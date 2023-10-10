@@ -70,7 +70,7 @@ function NavLinks() {
 
 export function NavBar() {
   return (
-    <nav className="mb-5 border-b">
+    <nav className="mb-10 border-b">
       <Container>
         <Flex justify="between" align="center" className="h-14 px-2 sm:px-4">
           <Flex align="center" gap={{ initial: "2", sm: "4" }}>
