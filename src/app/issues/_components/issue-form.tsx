@@ -17,7 +17,7 @@ import { Issue } from "@prisma/client";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
-export function IssueForm({ issue }: { issue?: Issue }) {
+export default function IssueForm({ issue }: { issue?: Issue }) {
   const router = useRouter();
   const {
     control,
