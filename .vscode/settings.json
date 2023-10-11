@@ -4,6 +4,7 @@
         "hookform",
         "signin",
         "signout",
-        "simplemde"
+        "simplemde",
+        "tanstack"
     ]
 }
