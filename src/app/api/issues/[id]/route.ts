@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
 import prisma from "@/db/prisma";
-import { issueSchema } from "@/issues/entities/dto";
+import { patchIssueSchema } from "@/issues/entities/dto";
 
 export async function PATCH(
   request: NextRequest,
@@ -14,20 +14,27 @@ export async function PATCH(
 
   const body = await request.json();
 
-  const validation = issueSchema.safeParse(body);
+  const validation = patchIssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
-  if (!issue)
-    return NextResponse.json({ message: "Issue not found" }, { status: 404 });
+  if (!issue) return NextResponse.json("Issue not found", { status: 404 });
 
-  const { description, title } = validation.data;
+  const { assigneeUserId, description, title } = validation.data;
+
+  if (assigneeUserId) {
+    const user = await prisma.issue.findUnique({
+      where: { id: parseInt(assigneeUserId) },
+    });
+    if (!user) return NextResponse.json("User not found", { status: 401 });
+  }
+
   const updatedIssue = await prisma.issue.update({
     where: { id: parseInt(params.id) },
-    data: { title, description },
+    data: { title, description, assigneeUserId },
   });
 
   return NextResponse.json(updatedIssue);
