@@ -26,8 +26,8 @@ export async function PATCH(
   const { assigneeUserId, description, title } = validation.data;
 
   if (assigneeUserId) {
-    const user = await prisma.issue.findUnique({
-      where: { id: parseInt(assigneeUserId) },
+    const user = await prisma.user.findUnique({
+      where: { id: assigneeUserId },
     });
     if (!user) return NextResponse.json("User not found", { status: 401 });
   }

@@ -31,7 +31,7 @@ export default async function IssueDetailPage({ params }: Props) {
         <IssueDetail issue={issue} />
       </Box>
       <Box className="space-y-4">
-        <AssigneeSelect />
+        <AssigneeSelect issue={issue} session={session} />
         {session ? (
           <Flex gap="4" className="items-start">
             <EditIssueButton issueId={issue.id} />
