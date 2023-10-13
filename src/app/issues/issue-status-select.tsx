@@ -4,7 +4,7 @@ import { IssueStatus } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 
-export const statusOptions: { label: string; value?: IssueStatus }[] = [
+const statusOptions: { label: string; value?: IssueStatus }[] = [
   { label: "All" },
   { label: "Open", value: "OPEN" },
   { label: "In Progress", value: "IN_PROGRESS" },
@@ -20,7 +20,7 @@ export function IssueStatusSelect({
 
   return (
     <Select.Root
-      defaultValue={currentStatus}
+      defaultValue={currentStatus || ""}
       onValueChange={(status) => {
         const query = status ? `?status=${status}` : "";
         router.push(`/issues${query}`);
@@ -29,7 +29,9 @@ export function IssueStatusSelect({
       <Select.Trigger />
       <Select.Content>
         {statusOptions.map((option) => (
-          <Select.Item value={option.value || ""}>{option.label}</Select.Item>
+          <Select.Item key={option.value || ""} value={option.value || ""}>
+            {option.label}
+          </Select.Item>
         ))}
       </Select.Content>
     </Select.Root>

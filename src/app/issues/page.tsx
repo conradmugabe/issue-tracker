@@ -6,10 +6,11 @@ import { IssueStatus } from "@prisma/client";
 
 import prisma from "@/db/prisma";
 import { IssueStatusBadge, Link } from "@/components";
-import { IssueStatusSelect, statusOptions } from "./issue-status-select";
+import { IssueStatusSelect } from "./issue-status-select";
+import { IssuesTableHeader, OrderBy } from "./issues-table-header";
 
 type Props = {
-  searchParams: { status?: IssueStatus };
+  searchParams: { status?: IssueStatus; orderBy?: OrderBy };
 };
 
 const statuses: (IssueStatus | undefined)[] = ["OPEN", "IN_PROGRESS", "CLOSED"];
@@ -34,17 +35,7 @@ export default async function IssuesPage({ searchParams }: Props) {
         </Button>
       </Flex>
       <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
-          </Table.Row>
-        </Table.Header>
+        <IssuesTableHeader currentOrderBy={searchParams.orderBy} />
         <Table.Body>
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
