@@ -7,7 +7,8 @@ export default function LoadingIssuesPage() {
 
   return (
     <div>
-      <div className="mb-5 flex">
+      <div className="mb-5 flex items-center justify-between">
+        <Skeleton className="h-8 px-12" />
         <Skeleton className="h-8 px-12" />
       </div>
       <Table.Root variant="surface">

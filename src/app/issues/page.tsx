@@ -1,10 +1,11 @@
 import NextLink from "next/link";
 
 import delay from "delay";
-import { Button, Table } from "@radix-ui/themes";
+import { Button, Flex, Table } from "@radix-ui/themes";
 
 import prisma from "@/db/prisma";
 import { IssueStatusBadge, Link } from "@/components";
+import { IssueStatusSelect } from "./issue-status-select";
 
 export default async function IssuesPage() {
   const issues = await prisma.issue.findMany();
@@ -12,11 +13,12 @@ export default async function IssuesPage() {
 
   return (
     <div>
-      <div className="mb-5">
+      <Flex className="mb-5 justify-between">
+        <IssueStatusSelect />
         <Button>
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
-      </div>
+      </Flex>
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
