@@ -2,19 +2,33 @@ import NextLink from "next/link";
 
 import delay from "delay";
 import { Button, Flex, Table } from "@radix-ui/themes";
+import { IssueStatus } from "@prisma/client";
 
 import prisma from "@/db/prisma";
 import { IssueStatusBadge, Link } from "@/components";
-import { IssueStatusSelect } from "./issue-status-select";
+import { IssueStatusSelect, statusOptions } from "./issue-status-select";
 
-export default async function IssuesPage() {
-  const issues = await prisma.issue.findMany();
+type Props = {
+  searchParams: { status?: IssueStatus };
+};
+
+const statuses: (IssueStatus | undefined)[] = ["OPEN", "IN_PROGRESS", "CLOSED"];
+
+export default async function IssuesPage({ searchParams }: Props) {
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
+  const issues = await prisma.issue.findMany({
+    where: { status },
+  });
+
   await delay(2000);
 
   return (
     <div>
       <Flex className="mb-5 justify-between">
-        <IssueStatusSelect />
+        <IssueStatusSelect currentStatus={searchParams.status} />
         <Button>
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
