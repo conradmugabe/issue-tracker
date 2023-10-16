@@ -6,27 +6,33 @@ import { IssueStatus } from "@prisma/client";
 
 import prisma from "@/db/prisma";
 import { IssueStatusBadge, Link } from "@/components";
+import { Pagination } from "@/components/pagination";
 import { IssueStatusSelect } from "./issue-status-select";
 import { IssuesTableHeader, OrderBy } from "./issues-table-header";
 import { getSearchParams } from "./_utils";
 
 type Props = {
-  searchParams: { status?: IssueStatus; orderBy?: OrderBy };
+  searchParams: { status?: IssueStatus; orderBy?: OrderBy; page: string };
 };
 
 export default async function IssuesPage({ searchParams }: Props) {
   const { orderBy, status } = getSearchParams(searchParams);
+  const pageSize = 2;
+  const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
 
   const issues = await prisma.issue.findMany({
     where: { status },
     orderBy,
+    take: pageSize,
+    skip: (currentPage - 1) * pageSize,
   });
+  const issuesCount = await prisma.issue.count({ where: { status } });
 
   await delay(2000);
 
   return (
-    <div>
-      <Flex className="mb-5 justify-between">
+    <Flex direction="column" gap="4">
+      <Flex justify="between">
         <IssueStatusSelect currentStatus={searchParams.status} />
         <Button>
           <NextLink href="/issues/new">New Issue</NextLink>
@@ -53,7 +59,13 @@ export default async function IssuesPage({ searchParams }: Props) {
           ))}
         </Table.Body>
       </Table.Root>
-    </div>
+      <Pagination
+        pageSize={pageSize}
+        itemCount={issuesCount}
+        currentPage={currentPage}
+        searchParams={searchParams}
+      />
+    </Flex>
   );
 }
 
