@@ -1,18 +1,10 @@
-import { Pagination } from "@/components/pagination";
+import { Grid } from "@radix-ui/themes";
+import { LatestIssues } from "./latest-issues";
 
-type Props = {
-  searchParams: { page: string };
-};
-
-export default function Home({ searchParams }: Props) {
+export default function Home() {
   return (
-    <div>
-      <Pagination
-        itemCount={100}
-        pageSize={10}
-        currentPage={searchParams.page ? parseInt(searchParams.page) : 1}
-        searchParams={searchParams}
-      />
-    </div>
+    <Grid>
+      <LatestIssues />
+    </Grid>
   );
 }
