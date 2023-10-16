@@ -1,8 +1,9 @@
-import { Avatar, Card, Flex, Grid, Text } from "@radix-ui/themes";
+import Link from "next/link";
+
+import { Avatar, Card, Flex, Grid, Heading, Text } from "@radix-ui/themes";
 
 import { IssueStatusBadge } from "@/components";
 import prisma from "@/db/prisma";
-import Link from "next/link";
 
 export async function LatestIssues() {
   const issues = await prisma.issue.findMany({
@@ -13,7 +14,8 @@ export async function LatestIssues() {
 
   return (
     <Card>
-      <Grid gap="4" className="divide-y">
+      <Heading className="mb-5">Latest Issues</Heading>
+      <Grid gap="4" columns="1" className="divide-y">
         {issues.map((issue) => (
           <Flex key={issue.id} justify="between" align="center">
             <Flex direction="column" align="start" gap="2">
