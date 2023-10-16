@@ -2,7 +2,7 @@
 
 import { IssueStatus } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const statusOptions: { label: string; value?: IssueStatus }[] = [
   { label: "All" },
@@ -17,9 +17,14 @@ export function IssueStatusSelect({
   currentStatus?: IssueStatus;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   function filterBy(status: string) {
-    const query = status ? `?status=${status}` : "";
+    const params = new URLSearchParams();
+    if (status) params.append("status", status);
+    if (searchParams.get("orderBy"))
+      params.append("orderBy", searchParams.get("orderBy")!);
+    const query = params.size ? "?" + params.toString() : "";
     router.push(`/issues${query}`);
   }
 

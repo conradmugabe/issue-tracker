@@ -19,8 +19,6 @@ const headings: { label: string; orderBy: OrderBy; className?: string }[] = [
 type Props = { status?: IssueStatus; orderBy?: OrderBy };
 
 export function IssuesTableHeader(props: Props) {
-  const searchParams = new URLSearchParams(props);
-
   return (
     <Table.Header>
       <Table.Row>
@@ -29,7 +27,7 @@ export function IssuesTableHeader(props: Props) {
             key={heading.orderBy}
             className={heading.className}
           >
-            <Link href={`/issues?orderBy=${heading.orderBy}`}>
+            <Link href={{ query: { ...props, orderBy: heading.orderBy } }}>
               {heading.label}{" "}
               {props.orderBy === heading.orderBy ? (
                 <FiArrowUp className="inline" />
