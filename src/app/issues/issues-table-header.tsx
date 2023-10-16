@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { FiArrowUp } from "react-icons/fi";
-import { Issue } from "@prisma/client";
+import { Issue, IssueStatus } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
 
 export type OrderBy = keyof Pick<Issue, "title" | "status" | "createdAt">;
@@ -16,11 +16,11 @@ const headings: { label: string; orderBy: OrderBy; className?: string }[] = [
   },
 ];
 
-export function IssuesTableHeader({
-  currentOrderBy,
-}: {
-  currentOrderBy?: OrderBy;
-}) {
+type Props = { status?: IssueStatus; orderBy?: OrderBy };
+
+export function IssuesTableHeader(props: Props) {
+  const searchParams = new URLSearchParams(props);
+
   return (
     <Table.Header>
       <Table.Row>
@@ -29,9 +29,11 @@ export function IssuesTableHeader({
             key={heading.orderBy}
             className={heading.className}
           >
-            <Link href="">
+            <Link href={`/issues?orderBy=${heading.orderBy}`}>
               {heading.label}{" "}
-              {currentOrderBy ? <FiArrowUp className="inline" /> : null}
+              {props.orderBy === heading.orderBy ? (
+                <FiArrowUp className="inline" />
+              ) : null}
             </Link>
           </Table.ColumnHeaderCell>
         ))}

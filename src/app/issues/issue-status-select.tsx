@@ -18,14 +18,13 @@ export function IssueStatusSelect({
 }) {
   const router = useRouter();
 
+  function filterBy(status: string) {
+    const query = status ? `?status=${status}` : "";
+    router.push(`/issues${query}`);
+  }
+
   return (
-    <Select.Root
-      defaultValue={currentStatus || ""}
-      onValueChange={(status) => {
-        const query = status ? `?status=${status}` : "";
-        router.push(`/issues${query}`);
-      }}
-    >
+    <Select.Root defaultValue={currentStatus || ""} onValueChange={filterBy}>
       <Select.Trigger />
       <Select.Content>
         {statusOptions.map((option) => (

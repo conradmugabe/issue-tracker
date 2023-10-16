@@ -8,20 +8,18 @@ import prisma from "@/db/prisma";
 import { IssueStatusBadge, Link } from "@/components";
 import { IssueStatusSelect } from "./issue-status-select";
 import { IssuesTableHeader, OrderBy } from "./issues-table-header";
+import { getSearchParams } from "./_utils";
 
 type Props = {
   searchParams: { status?: IssueStatus; orderBy?: OrderBy };
 };
 
-const statuses: (IssueStatus | undefined)[] = ["OPEN", "IN_PROGRESS", "CLOSED"];
-
 export default async function IssuesPage({ searchParams }: Props) {
-  const status = statuses.includes(searchParams.status)
-    ? searchParams.status
-    : undefined;
+  const { orderBy, status } = getSearchParams(searchParams);
 
   const issues = await prisma.issue.findMany({
     where: { status },
+    orderBy,
   });
 
   await delay(2000);
@@ -35,7 +33,7 @@ export default async function IssuesPage({ searchParams }: Props) {
         </Button>
       </Flex>
       <Table.Root variant="surface">
-        <IssuesTableHeader currentOrderBy={searchParams.orderBy} />
+        <IssuesTableHeader {...searchParams} />
         <Table.Body>
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
