@@ -1,9 +1,11 @@
+import { cache } from "react";
 import { notFound } from "next/navigation";
 
 import delay from "delay";
 import { Box, Flex, Grid } from "@radix-ui/themes";
 
 import prisma from "@/db/prisma";
+import { nextAuthOptions } from "@/auth/next-auth-options";
 import { EditIssueButton } from "./edit-issue-button";
 import { IssueDetail } from "./issue-detail";
 import { DeleteIssueButton } from "./delete-issue-button";
@@ -14,13 +16,15 @@ type Props = {
   params: { id: string };
 };
 
+const fetchIssue = cache((issueId: number) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
+
 export default async function IssueDetailPage({ params }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(nextAuthOptions);
   // if (typeof params.id !== "number") notFound();
 
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
-  });
+  const issue = await fetchIssue(parseInt(params.id));
   if (!issue) notFound();
 
   await delay(2000);
@@ -41,4 +45,9 @@ export default async function IssueDetailPage({ params }: Props) {
       </Box>
     </Grid>
   );
+}
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await fetchIssue(parseInt(params.id));
+  return { title: issue?.title, description: "Details of issue " + issue?.id };
 }

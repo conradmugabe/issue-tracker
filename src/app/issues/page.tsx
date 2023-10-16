@@ -8,6 +8,7 @@ import { Pagination } from "@/components/pagination";
 import { IssueStatusSelect } from "./issue-status-select";
 import { getSearchParams } from "./_utils";
 import { IssueQuery, IssuesTable } from "./issues-table";
+import { Metadata } from "next";
 
 type Props = {
   searchParams: IssueQuery;
@@ -48,3 +49,8 @@ export default async function IssuesPage({ searchParams }: Props) {
 }
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issues",
+  description: "View issue summary",
+};
